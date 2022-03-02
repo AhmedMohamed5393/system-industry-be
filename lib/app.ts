@@ -1,8 +1,9 @@
 import Debug from "debug";
 import express from "express";
 import * as env from "./environment";
-import router from "./template/router";
-const debug = Debug("template-express:app");
+import system from "./system/router";
+import industry from "./industry/router";
+const debug = Debug("system-industry:app");
 const app = express();
 const port = env.PORT || 3000;
 const host = env.HOST;
@@ -14,8 +15,9 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT ,PATCH, DELETE, OPTIONS");
     next();
 });
-app.use("/api/", router);
-app.get("/", (req, res) => { res.send("The Template App is up and running!"); });
+app.use("/api/systems", system);
+app.use("/api/industries", industry);
+app.get("/", (req, res) => { res.send("The App is up and running!"); });
 app.use(notFoundHandler);
 app.set("port", port);
 app.listen(port , host , (err) => {
